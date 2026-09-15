@@ -1,9 +1,19 @@
 # Sophos VPN & Registry Automation Suite | SNR
 
+> 🚀 **[¡HAGA CLIC AQUÍ PARA EJECUTAR LA APLICACIÓN EN VIVO!](https://junipermerchan.github.io/sophos-vpn-automation-suite/)**
+
 Una suite web interactiva diseñada para automatizar el enrutamiento VPN Route-Based (VTI /30), la generación de objetos IP, reglas de firewall para Sophos SFOS y la creación/exportación del archivo de registro `.reg` para el aplicativo **IRIS DOCUMENTAL** (Superintendencia de Notariado y Registro).
 
-![Sophos VPN Automation Suite](https://img.shields.io/badge/Sophos-SFOS_v18%2Fv19%2Fv20-blue?style=for-the-badge&logo=sophos)
+[![Ejecutar en Vivo](https://img.shields.io/badge/▶_EJECUTAR_EN_VIVO-GitHub_Pages-22c55e?style=for-the-badge&logo=github)](https://junipermerchan.github.io/sophos-vpn-automation-suite/)
+![Sophos](https://img.shields.io/badge/Sophos-SFOS_v18%2Fv19%2Fv20-blue?style=for-the-badge&logo=sophos)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+
+---
+
+## 🔗 Enlaces Rápidos
+
+- 🌐 **Aplicación Web en Vivo:** [https://junipermerchan.github.io/sophos-vpn-automation-suite/](https://junipermerchan.github.io/sophos-vpn-automation-suite/)
+- 📁 **Código Fuente GitHub:** [https://github.com/junipermerchan/sophos-vpn-automation-suite](https://github.com/junipermerchan/sophos-vpn-automation-suite)
 
 ---
 
@@ -17,29 +27,15 @@ Una suite web interactiva diseñada para automatizar el enrutamiento VPN Route-B
 
 ---
 
-## 🚀 Uso Rápido
+## 🚀 Uso Rápido en Servidor Local
 
-### Ejecución Local
-Simplemente abre el archivo `index.html` en cualquier navegador web o ejecuta un servidor web simple:
+Si prefieres ejecutarlo localmente:
 
 ```bash
-# Con Python
+# Servidor local con Python
 python3 -m http.server 8085
 ```
-
-Luego accede en tu navegador a `http://localhost:8085`.
-
----
-
-## 📂 Estructura del Proyecto
-
-```
-.
-├── index.html     # Interfaz de usuario interactiva y componentes UI
-├── styles.css     # Estilos CSS modernos (Dark Theme & Glassmorphism)
-├── app.js         # Lógica de cálculo, generador de .REG y simulador
-└── README.md      # Documentación del repositorio
-```
+Luego abre `http://localhost:8085` en tu navegador.
 
 ---
 
