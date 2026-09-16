@@ -45,45 +45,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminalOutput = document.getElementById('terminalOutput');
     const simStatus = document.getElementById('simStatus');
 
-    // Tab Switching Logic
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabContents.forEach(c => c.classList.remove('active'));
-
-            btn.classList.add('active');
-            const targetTab = document.getElementById(btn.dataset.tab);
-            if (targetTab) targetTab.classList.add('active');
-        });
-    });
-
-    // Helper: Show Toast
-    function showToast(msg) {
-        toast.textContent = msg;
-        toast.classList.remove('hidden');
-        setTimeout(() => {
-            toast.classList.add('hidden');
-        }, 2500);
+    // Helper: Clean string for object names
+    function cleanName(str, defaultVal) {
+        const trimmed = str ? str.trim() : '';
+        if (!trimmed) return defaultVal;
+        return trimmed.replace(/[^a-zA-Z0-9_]/g, '_');
     }
 
-    // Helper: Clean string for object names
-    function cleanName(str) {
-        return str.replace(/[^a-zA-Z0-9_]/g, '_');
+    // Helper: Format IP value
+    function formatVal(val, placeholder) {
+        const trimmed = val ? val.trim() : '';
+        return trimmed ? trimmed : `<${placeholder}>`;
     }
 
     // Main Update Function
     function updateOutputs() {
-        const srcName = cleanName(inputs.sedeOrigenNombre.value.trim() || 'Sede_Origen');
-        const srcIp = inputs.sedeOrigenIp.value.trim() || '10.2.0.223';
-        const dstName = cleanName(inputs.sedeDestinoNombre.value.trim() || 'Sede_Destino');
-        const dstIp = inputs.sedeDestinoIp.value.trim() || '10.4.0.13';
-        const vtiLoc = inputs.vtiIpLocal.value.trim() || '169.254.10.1';
-        const vtiRem = inputs.vtiIpRemota.value.trim() || '169.254.10.2';
-        const dbNameVal = inputs.dbName.value.trim() || 'BD_PRINCIPAL';
-        const dbPortVal = inputs.dbPort.value.trim() || '5432';
+        const srcNameRaw = inputs.sedeOrigenNombre.value;
+        const srcIpRaw = inputs.sedeOrigenIp.value;
+        const dstNameRaw = inputs.sedeDestinoNombre.value;
+        const dstIpRaw = inputs.sedeDestinoIp.value;
+        const vtiLocRaw = inputs.vtiIpLocal.value;
+        const vtiRemRaw = inputs.vtiIpRemota.value;
+        const dbNameRaw = inputs.dbName.value;
+        const dbPortRaw = inputs.dbPort.value;
+
+        const srcName = cleanName(srcNameRaw, 'Sede_Origen');
+        const srcIp = formatVal(srcIpRaw, 'IP_ORIGEN');
+        const dstName = cleanName(dstNameRaw, 'Sede_Destino');
+        const dstIp = formatVal(dstIpRaw, 'IP_DESTINO');
+        const vtiLoc = formatVal(vtiLocRaw, 'IP_VTI_LOCAL');
+        const vtiRem = formatVal(vtiRemRaw, 'IP_VTI_REMOTA');
+        const dbNameVal = formatVal(dbNameRaw, 'BD_PRINCIPAL');
+        const dbPortVal = formatVal(dbPortRaw, '5432');
 
         // 1. SOP Outputs
         outputs.objOrigen.textContent = `HOST_${srcName}`;
@@ -92,10 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.ipDestinoVal.textContent = dstIp;
         
         outputs.vpnName.textContent = `TO_${dstName}`;
-        outputs.vtiLocal.textContent = `${vtiLoc} / 255.255.252.0`;
-        outputs.vtiRemota.textContent = `${vtiRem} / 255.255.252.0`;
+        outputs.vtiLocal.textContent = `${vtiLoc} / 255.255.255.252 (/30)`;
+        outputs.vtiRemota.textContent = `${vtiRem} / 255.255.255.252 (/30)`;
 
-        outputs.routeDest.textContent = `${dstIp} / 255.255.255.255`;
+        outputs.routeDest.textContent = `${dstIp} / 255.255.255.255 (/32)`;
         outputs.routeIf.textContent = `xfrm_${dstName}`;
         outputs.routeGw.textContent = vtiRem;
 
@@ -125,9 +118,52 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.simCmdText.textContent = `tracert ${dstIp}`;
     }
 
-    // Attach Event Listeners to Inputs
-    Object.values(inputs).forEach(input => {
-        input.addEventListener('input', updateOutputs);
+    // Attach Event Listeners to Inputs (input, keyup, change, paste)
+    ['input', 'keyup', 'change', 'paste'].forEach(evtType => {
+        Object.values(inputs).forEach(input => {
+            if (input) {
+                input.addEventListener(evtType, updateOutputs);
+            }
+        });
+    });
+
+    // Auto calculate remote VTI IP when local VTI IP is typed
+    inputs.vtiIpLocal.addEventListener('input', () => {
+        const val = inputs.vtiIpLocal.value.trim();
+        const parts = val.split('.');
+        if (parts.length === 4 && !isNaN(parts[3]) && parts[3] !== '') {
+            const lastOctet = parseInt(parts[3], 10);
+            if (lastOctet % 2 === 1) { // If odd (.1, .5), remote is +1 (.2, .6)
+                inputs.vtiIpRemota.value = `${parts[0]}.${parts[1]}.${parts[2]}.${lastOctet + 1}`;
+            } else if (lastOctet % 2 === 0 && lastOctet > 0) { // If even (.2, .6), remote is -1 (.1, .5)
+                inputs.vtiIpRemota.value = `${parts[0]}.${parts[1]}.${parts[2]}.${lastOctet - 1}`;
+            }
+            updateOutputs();
+        }
+    });
+
+    // Helper: Show Toast
+    function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 2500);
+    }
+
+    // Tab Switching Logic
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            const targetTab = document.getElementById(btn.dataset.tab);
+            if (targetTab) targetTab.classList.add('active');
+        });
     });
 
     // Auto-generate random safe VTI /30 IPs
@@ -161,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.sedeDestinoIp.value = '';
         inputs.vtiIpLocal.value = '';
         inputs.vtiIpRemota.value = '';
+        inputs.dbName.value = '';
+        inputs.dbPort.value = '';
         updateOutputs();
         showToast('Formulario limpiado');
     });
@@ -216,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <p class="term-line">Traza a ${dstIp} sobre caminos de 30 saltos como máximo.</p><br>`;
 
         const hops = [
-            { num: 1, time: '<1 ms', ip: `10.2.0.1 (Gateway Sophos ${srcName})` },
+            { num: 1, time: '<1 ms', ip: `${srcIp.split('.').slice(0,3).join('.') || '10.2.0'}.1 (Gateway Sophos ${srcName})` },
             { num: 2, time: '14 ms', ip: `${vtiRem} (Interfaz Túnel /30 VTI -> ${dstName})` },
             { num: 3, time: '15 ms', ip: `${dstIp} (Servidor BD PostgreSQL Iris Documental)` }
         ];
@@ -240,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 simStatus.textContent = '✔ Traza Exitosa';
                 btnRunSim.disabled = false;
             }
-        }, 800);
+        }, 600);
     });
 
     // Initial update
