@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sedeDestinoIp: document.getElementById('sedeDestinoIp'),
         vtiIpLocal: document.getElementById('vtiIpLocal'),
         vtiIpRemota: document.getElementById('vtiIpRemota'),
+        pskKey: document.getElementById('pskKey'),
         dbName: document.getElementById('dbName'),
         dbPort: document.getElementById('dbPort')
     };
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vpnName: document.getElementById('outVpnName'),
         vtiLocal: document.getElementById('outVtiLocal'),
         vtiRemota: document.getElementById('outVtiRemota'),
+        pskKey: document.getElementById('outPskKey'),
         routeDest: document.getElementById('outRouteDest'),
         routeIf: document.getElementById('outRouteIf'),
         routeGw: document.getElementById('outRouteGw'),
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPresetBogota = document.getElementById('btnPresetBogota');
     const btnReset = document.getElementById('btnReset');
     const btnGenVti = document.getElementById('btnGenVti');
+    const btnGenPsk = document.getElementById('btnGenPsk');
     const btnCopyReg = document.getElementById('btnCopyReg');
     const btnDownloadReg = document.getElementById('btnDownloadReg');
     const btnRunSim = document.getElementById('btnRunSim');
@@ -66,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dstIpRaw = inputs.sedeDestinoIp.value;
         const vtiLocRaw = inputs.vtiIpLocal.value;
         const vtiRemRaw = inputs.vtiIpRemota.value;
+        const pskRaw = inputs.pskKey.value;
         const dbNameRaw = inputs.dbName.value;
         const dbPortRaw = inputs.dbPort.value;
 
@@ -75,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dstIp = formatVal(dstIpRaw, 'IP_DESTINO');
         const vtiLoc = formatVal(vtiLocRaw, 'IP_VTI_LOCAL');
         const vtiRem = formatVal(vtiRemRaw, 'IP_VTI_REMOTA');
+        const pskVal = formatVal(pskRaw, 'CLAVE_PSK_IKEV2');
         const dbNameVal = formatVal(dbNameRaw, 'BD_PRINCIPAL');
         const dbPortVal = formatVal(dbPortRaw, '5432');
 
@@ -87,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.vpnName.textContent = `TO_${dstName}`;
         outputs.vtiLocal.textContent = `${vtiLoc} / 255.255.255.252 (/30)`;
         outputs.vtiRemota.textContent = `${vtiRem} / 255.255.255.252 (/30)`;
+        if (outputs.pskKey) outputs.pskKey.textContent = pskVal;
 
         outputs.routeDest.textContent = `${dstIp} / 255.255.255.255 (/32)`;
         outputs.routeIf.textContent = `xfrm_${dstName}`;
@@ -166,6 +172,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Helper: Cryptographically Secure PSK Generator
+    function generateSecurePSK(length = 32) {
+        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=';
+        let result = '';
+        const randomValues = new Uint32Array(length);
+        window.crypto.getRandomValues(randomValues);
+        for (let i = 0; i < length; i++) {
+            result += charset[randomValues[i] % charset.length];
+        }
+        return result;
+    }
+
     // Auto-generate random safe VTI /30 IPs
     btnGenVti.addEventListener('click', () => {
         const octet = Math.floor(Math.random() * 250) + 1;
@@ -174,6 +192,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateOutputs();
         showToast('IPs /30 auto-generadas');
     });
+
+    // Auto-generate secure IKEv2 PSK Key
+    if (btnGenPsk) {
+        btnGenPsk.addEventListener('click', () => {
+            const newKey = generateSecurePSK(32);
+            inputs.pskKey.value = newKey;
+            updateOutputs();
+            showToast('Clave IKEv2 PSK segura generada');
+        });
+    }
 
     // Preset Bogotá
     btnPresetBogota.addEventListener('click', () => {

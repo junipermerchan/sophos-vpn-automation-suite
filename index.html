@@ -99,6 +99,13 @@
                                 <input type="text" id="vtiIpRemota" placeholder="Ej: 169.254.10.2" value="169.254.10.2" required>
                             </div>
                         </div>
+                        <div class="input-field" style="margin-top: 0.6rem;">
+                            <div class="flex-between">
+                                <label for="pskKey">Clave Pre-Compartida IKEv2 (PSK)</label>
+                                <button type="button" id="btnGenPsk" class="btn-text">🔑 Generar Clave PSK Segura</button>
+                            </div>
+                            <input type="text" id="pskKey" placeholder="Ej: k9$M#9xL2!pQ8@vW5%zN7&tR3*bY4^uX" value="K9$mX8#pQ2!vW7%zN4&tR9*bY3^uL5@s" required>
+                        </div>
                     </div>
 
                     <!-- Config Aplicación -->
@@ -196,6 +203,11 @@
                                         <span>Remote Tunnel IP (/30):</span>
                                         <code id="outVtiRemota">169.254.10.2</code>
                                         <button class="copy-btn" data-copy-target="outVtiRemota">Copiar</button>
+                                    </div>
+                                    <div class="param-row highlight-row">
+                                        <span>IKEv2 Pre-Shared Key (PSK):</span>
+                                        <code id="outPskKey">K9$mX8#pQ2!vW7%zN4&tR9*bY3^uL5@s</code>
+                                        <button class="copy-btn" data-copy-target="outPskKey">Copiar</button>
                                     </div>
                                 </div>
                             </div>
