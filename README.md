@@ -1,8 +1,8 @@
-# Sophos VPN & Registry Automation Suite | SNR
+# Sophos VPN & Registry Automation Suite
 
 > 🚀 **[¡HAGA CLIC AQUÍ PARA EJECUTAR LA APLICACIÓN EN VIVO!](https://junipermerchan.github.io/sophos-vpn-automation-suite/)**
 
-Una suite web interactiva diseñada para automatizar el enrutamiento VPN Route-Based (VTI /30), la generación de objetos IP, reglas de firewall para Sophos SFOS y la creación/exportación del archivo de registro `.reg` para el aplicativo **IRIS DOCUMENTAL** (Superintendencia de Notariado y Registro).
+Una suite web interactiva diseñada para automatizar el enrutamiento VPN Route-Based (VTI /30), la generación de objetos IP, reglas de firewall para Sophos SFOS y la creación/exportación del archivo de registro `.reg` para el aplicativo **IRIS DOCUMENTAL**.
 
 [![Ejecutar en Vivo](https://img.shields.io/badge/▶_EJECUTAR_EN_VIVO-GitHub_Pages-22c55e?style=for-the-badge&logo=github)](https://junipermerchan.github.io/sophos-vpn-automation-suite/)
 ![Sophos](https://img.shields.io/badge/Sophos-SFOS_v18%2Fv19%2Fv20-blue?style=for-the-badge&logo=sophos)

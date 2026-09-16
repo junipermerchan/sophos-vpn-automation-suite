@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const dstIp = inputs.sedeDestinoIp.value.trim() || '10.4.0.13';
         const vtiLoc = inputs.vtiIpLocal.value.trim() || '169.254.10.1';
         const vtiRem = inputs.vtiIpRemota.value.trim() || '169.254.10.2';
-        const dbNameVal = inputs.dbName.value.trim() || 'SNR';
+        const dbNameVal = inputs.dbName.value.trim() || 'BD_PRINCIPAL';
         const dbPortVal = inputs.dbPort.value.trim() || '5432';
 
         // 1. SOP Outputs
@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 [HKEY_LOCAL_MACHINE\\SOFTWARE\\WOW6432Node\\ASD S.A.\\Iris Documental ASD5\\Datos]
 "Conex0"="Predeterminada"
-"ConexCad0"="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\\\Program Files (x86)\\\\ASD S.A.\\\\Iris Documental ASD Version SNR\\\\Data\\\\IrisDoc5.mdb"
-"Conex1"="SNR_${dstName.toUpperCase()}"
+"ConexCad0"="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\\\Program Files (x86)\\\\ASD S.A.\\\\Iris Documental ASD Version\\\\Data\\\\IrisDoc5.mdb"
+"Conex1"="CONEX_${dstName.toUpperCase()}"
 "ConexCad1"="Driver={PostgreSQL UNICODE};Server=${dstIp};Port=${dbPortVal};Database=${dbNameVal};Uid=postgres;Pwd=postgres;"
 "Conexiones"="2"
 "PreConex"="1"`;
@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         inputs.sedeDestinoIp.value = '10.4.0.13';
         inputs.vtiIpLocal.value = '169.254.10.1';
         inputs.vtiIpRemota.value = '169.254.10.2';
-        inputs.dbName.value = 'SNR';
+        inputs.dbName.value = 'BD_PRINCIPAL';
         inputs.dbPort.value = '5432';
         updateOutputs();
         showToast('Ejemplo Bogotá cargado');
