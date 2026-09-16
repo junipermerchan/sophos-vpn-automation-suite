@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         vtiIpLocal: document.getElementById('vtiIpLocal'),
         vtiIpRemota: document.getElementById('vtiIpRemota'),
         pskKey: document.getElementById('pskKey'),
+        gatewayType: document.getElementById('gatewayType'),
+        listeningIf: document.getElementById('listeningIf'),
+        wanRemoteIp: document.getElementById('wanRemoteIp'),
+        ikeProfile: document.getElementById('ikeProfile'),
+        localIdType: document.getElementById('localIdType'),
+        remoteIdType: document.getElementById('remoteIdType'),
         dbName: document.getElementById('dbName'),
         dbPort: document.getElementById('dbPort')
     };
@@ -19,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         objDestino: document.getElementById('outObjDestino'),
         ipDestinoVal: document.getElementById('outIpDestinoVal'),
         vpnName: document.getElementById('outVpnName'),
+        gatewayType: document.getElementById('outGatewayType'),
+        listeningIf: document.getElementById('outListeningIf'),
+        wanRemoteIp: document.getElementById('outWanRemoteIp'),
+        ikeProfile: document.getElementById('outIkeProfile'),
+        idTypes: document.getElementById('outIdTypes'),
         vtiLocal: document.getElementById('outVtiLocal'),
         vtiRemota: document.getElementById('outVtiRemota'),
         pskKey: document.getElementById('outPskKey'),
@@ -83,6 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const dbNameVal = formatVal(dbNameRaw, 'BD_PRINCIPAL');
         const dbPortVal = formatVal(dbPortRaw, '5432');
 
+        const gwTypeVal = inputs.gatewayType ? inputs.gatewayType.value : 'Initiator';
+        const listIfVal = formatVal(inputs.listeningIf ? inputs.listeningIf.value : '', 'Port2 - WAN');
+        const wanRemVal = formatVal(inputs.wanRemoteIp ? inputs.wanRemoteIp.value : '', 'IP_PUBLICA_REMOTA');
+        const profileVal = inputs.ikeProfile ? inputs.ikeProfile.value : 'IKEv2';
+        const locIdVal = inputs.localIdType ? inputs.localIdType.value : 'IP Address';
+        const remIdVal = inputs.remoteIdType ? inputs.remoteIdType.value : 'IP Address';
+
         // 1. SOP Outputs
         outputs.objOrigen.textContent = `HOST_${srcName}`;
         outputs.ipOrigenVal.textContent = srcIp;
@@ -90,6 +108,12 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.ipDestinoVal.textContent = dstIp;
         
         outputs.vpnName.textContent = `TO_${dstName}`;
+        if (outputs.gatewayType) outputs.gatewayType.textContent = gwTypeVal;
+        if (outputs.listeningIf) outputs.listeningIf.textContent = listIfVal;
+        if (outputs.wanRemoteIp) outputs.wanRemoteIp.textContent = wanRemVal;
+        if (outputs.ikeProfile) outputs.ikeProfile.textContent = profileVal;
+        if (outputs.idTypes) outputs.idTypes.textContent = `${locIdVal} / ${remIdVal}`;
+
         outputs.vtiLocal.textContent = `${vtiLoc} / 255.255.255.252 (/30)`;
         outputs.vtiRemota.textContent = `${vtiRem} / 255.255.255.252 (/30)`;
         if (outputs.pskKey) outputs.pskKey.textContent = pskVal;

@@ -106,6 +106,57 @@
                             </div>
                             <input type="text" id="pskKey" placeholder="Ej: k9$M#9xL2!pQ8@vW5%zN7&tR3*bY4^uX" value="K9$mX8#pQ2!vW7%zN4&tR9*bY3^uL5@s" required>
                         </div>
+                    <!-- Parámetros Avanzados Sophos IPsec Gateway -->
+                    <div class="form-group-box full-width">
+                        <div class="box-title">
+                            <span class="badge badge-vti">Sophos WAN & Gateway</span>
+                            Configuración de Puertos y Algoritmo IPsec
+                        </div>
+                        <div class="two-col">
+                            <div class="input-field">
+                                <label for="gatewayType">Gateway Type (Modo)</label>
+                                <select id="gatewayType">
+                                    <option value="Initiator" selected>Initiator (Iniciador del túnel)</option>
+                                    <option value="Respond only">Respond only (Solo responder)</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label for="listeningIf">Listening Interface (Interfaz WAN Local)</label>
+                                <input type="text" id="listeningIf" value="Port2 - WAN" placeholder="Ej: Port2 - WAN" required>
+                            </div>
+                        </div>
+                        <div class="two-col">
+                            <div class="input-field">
+                                <label for="wanRemoteIp">Gateway Address / IP Pública Remota</label>
+                                <input type="text" id="wanRemoteIp" value="200.123.45.67" placeholder="Ej: 200.123.45.67 o FQDN" required>
+                            </div>
+                            <div class="input-field">
+                                <label for="ikeProfile">Policy / Perfil IPsec</label>
+                                <select id="ikeProfile">
+                                    <option value="IKEv2" selected>IKEv2 (Recomendado / Alta Seguridad)</option>
+                                    <option value="DefaultHEADLESS">DefaultHEADLESS (IKEv2 Standard)</option>
+                                    <option value="IKEv1">IKEv1 (Legado)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="two-col">
+                            <div class="input-field">
+                                <label for="localIdType">Local ID Type</label>
+                                <select id="localIdType">
+                                    <option value="IP address" selected>IP Address</option>
+                                    <option value="DNS">DNS / FQDN</option>
+                                    <option value="None">None (Ninguno)</option>
+                                </select>
+                            </div>
+                            <div class="input-field">
+                                <label for="remoteIdType">Remote ID Type</label>
+                                <select id="remoteIdType">
+                                    <option value="IP address" selected>IP Address</option>
+                                    <option value="DNS">DNS / FQDN</option>
+                                    <option value="None">None (Ninguno)</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Config Aplicación -->
@@ -186,7 +237,7 @@
                                 <h3>Configurar VPN Route-Based & Segmento /30 <span class="path-tag">Site-to-site VPN > IPsec</span></h3>
                                 <div class="params-table">
                                     <div class="param-row">
-                                        <span>Nombre VPN:</span>
+                                        <span>Nombre VPN (Connection Name):</span>
                                         <code id="outVpnName">TO_Bogota_Norte</code>
                                         <button class="copy-btn" data-copy-target="outVpnName">Copiar</button>
                                     </div>
@@ -195,13 +246,34 @@
                                         <code>Route-based (Tunnel interface)</code>
                                     </div>
                                     <div class="param-row">
+                                        <span>Gateway Type (Modo):</span>
+                                        <code id="outGatewayType">Initiator</code>
+                                    </div>
+                                    <div class="param-row">
+                                        <span>Listening Interface (WAN Local):</span>
+                                        <code id="outListeningIf">Port2 - WAN</code>
+                                    </div>
+                                    <div class="param-row">
+                                        <span>Gateway Address (IP Remota):</span>
+                                        <code id="outWanRemoteIp">200.123.45.67</code>
+                                        <button class="copy-btn" data-copy-target="outWanRemoteIp">Copiar</button>
+                                    </div>
+                                    <div class="param-row">
+                                        <span>Policy / Perfil IPsec:</span>
+                                        <code id="outIkeProfile">IKEv2</code>
+                                    </div>
+                                    <div class="param-row">
+                                        <span>Local ID / Remote ID Type:</span>
+                                        <code id="outIdTypes">IP Address / IP Address</code>
+                                    </div>
+                                    <div class="param-row">
                                         <span>Local Tunnel IP (/30):</span>
-                                        <code id="outVtiLocal">169.254.10.1</code>
+                                        <code id="outVtiLocal">169.254.10.1 / 255.255.255.252</code>
                                         <button class="copy-btn" data-copy-target="outVtiLocal">Copiar</button>
                                     </div>
                                     <div class="param-row">
                                         <span>Remote Tunnel IP (/30):</span>
-                                        <code id="outVtiRemota">169.254.10.2</code>
+                                        <code id="outVtiRemota">169.254.10.2 / 255.255.255.252</code>
                                         <button class="copy-btn" data-copy-target="outVtiRemota">Copiar</button>
                                     </div>
                                     <div class="param-row highlight-row">
