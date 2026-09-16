@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
         ruleName: document.getElementById('outRuleName'),
         ruleSrc: document.getElementById('outRuleSrc'),
         ruleDst: document.getElementById('outRuleDst'),
+        ruleNameIn: document.getElementById('outRuleNameIn'),
+        ruleDstIn: document.getElementById('outRuleDstIn'),
+        diagFilter: document.getElementById('outDiagFilter'),
         regFilename: document.getElementById('regFilename'),
         regCodeDisplay: document.getElementById('regCodeDisplay'),
         simCmdText: document.getElementById('simCmdText')
@@ -127,8 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.sdwanGw.textContent = `Gateway xfrm (${vtiRem})`;
 
         outputs.ruleName.textContent = `RULE_${srcName}_TO_${dstName}`;
-        outputs.ruleSrc.textContent = `LAN | HOST_${srcName}`;
-        outputs.ruleDst.textContent = `VPN | HOST_${dstName}`;
+        outputs.ruleSrc.textContent = `LAN (HOST_${srcName}) -> VPN (HOST_${dstName})`;
+        if (outputs.ruleNameIn) outputs.ruleNameIn.textContent = `RULE_${dstName}_TO_${srcName}`;
+        if (outputs.ruleDstIn) outputs.ruleDstIn.textContent = `VPN (HOST_${dstName}) -> LAN (HOST_${srcName})`;
+        if (outputs.diagFilter) outputs.diagFilter.textContent = `host ${dstIp}`;
 
         // 2. REG File Output
         outputs.regFilename.textContent = `REG_${dstName}.reg`;
