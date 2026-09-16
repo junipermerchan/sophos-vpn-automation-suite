@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
         objDestino: document.getElementById('outObjDestino'),
         ipDestinoVal: document.getElementById('outIpDestinoVal'),
         vpnName: document.getElementById('outVpnName'),
+        xfrmName: document.getElementById('outXfrmName'),
+        xfrmVpnRef: document.getElementById('outXfrmVpnRef'),
+        xfrmIpLoc: document.getElementById('outXfrmIpLoc'),
+        xfrmIpRem: document.getElementById('outXfrmIpRem'),
         gatewayType: document.getElementById('outGatewayType'),
         listeningIf: document.getElementById('outListeningIf'),
         wanRemoteIp: document.getElementById('outWanRemoteIp'),
@@ -111,6 +115,11 @@ document.addEventListener('DOMContentLoaded', () => {
         outputs.ipDestinoVal.textContent = dstIp;
         
         outputs.vpnName.textContent = `TO_${dstName}`;
+        if (outputs.xfrmName) outputs.xfrmName.textContent = `xfrm_${dstName}`;
+        if (outputs.xfrmVpnRef) outputs.xfrmVpnRef.textContent = `TO_${dstName}`;
+        if (outputs.xfrmIpLoc) outputs.xfrmIpLoc.textContent = `${vtiLoc} / 255.255.255.252 (/30)`;
+        if (outputs.xfrmIpRem) outputs.xfrmIpRem.textContent = vtiRem;
+
         if (outputs.gatewayType) outputs.gatewayType.textContent = gwTypeVal;
         if (outputs.listeningIf) outputs.listeningIf.textContent = listIfVal;
         if (outputs.wanRemoteIp) outputs.wanRemoteIp.textContent = wanRemVal;
