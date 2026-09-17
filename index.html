@@ -285,51 +285,78 @@
                             <div class="step-num">4</div>
                             <div class="step-body">
                                 <h3>Configurar VPN Route-Based <span class="path-tag">Site-to-site VPN > IPsec</span></h3>
-                                <div class="params-table">
-                                    <div class="param-row">
-                                        <span>Nombre VPN (Connection Name):</span>
-                                        <code id="outVpnName">TO_Bogota_Norte</code>
-                                        <button class="copy-btn" data-copy-target="outVpnName">Copiar</button>
+                                
+                                <div class="route-options">
+                                    <!-- Policy & Encryption Card -->
+                                    <div class="sub-card">
+                                        <h4>🔐 1. IPsec Policy (Política de Cifrado)</h4>
+                                        <div class="param-row">
+                                            <span>Nombre VPN:</span>
+                                            <code id="outVpnName">TO_Bogota_Norte</code>
+                                            <button class="copy-btn" data-copy-target="outVpnName">Copiar</button>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Connection Type:</span>
+                                            <code>Route-based (Tunnel interface)</code>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Policy / Perfil IPsec:</span>
+                                            <code id="outIkeProfile">IKEv2</code>
+                                        </div>
+                                        <div class="param-row highlight-row">
+                                            <span>Pre-Shared Key (PSK):</span>
+                                            <code id="outPskKey">K9$mX8#pQ2!vW7%zN4&tR9*bY3^uL5@s</code>
+                                            <button class="copy-btn" data-copy-target="outPskKey">Copiar</button>
+                                        </div>
                                     </div>
-                                    <div class="param-row">
-                                        <span>Connection Type:</span>
-                                        <code>Route-based (Tunnel interface)</code>
+
+                                    <!-- Source / Local Settings Card -->
+                                    <div class="sub-card">
+                                        <h4>🏠 2. Source / Local Settings (Origen - Tu Sophos)</h4>
+                                        <div class="param-row">
+                                            <span>Listening Interface (WAN):</span>
+                                            <code id="outListeningIf">Port2 - WAN</code>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Local ID Type:</span>
+                                            <code id="outLocalIdType">IP Address</code>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Local Tunnel IP (/30):</span>
+                                            <code id="outVtiLocal">169.254.10.1 / 255.255.255.252</code>
+                                            <button class="copy-btn" data-copy-target="outVtiLocal">Copiar</button>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Red Origen (Host):</span>
+                                            <code id="outObjOrigenCard">HOST_Bogota_Centro (10.2.0.223)</code>
+                                        </div>
                                     </div>
-                                    <div class="param-row">
-                                        <span>Gateway Type (Modo):</span>
-                                        <code id="outGatewayType">Initiator</code>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Listening Interface (WAN Local):</span>
-                                        <code id="outListeningIf">Port2 - WAN</code>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Gateway Address (IP Pública Remota):</span>
-                                        <code id="outWanRemoteIp">200.123.45.67</code>
-                                        <button class="copy-btn" data-copy-target="outWanRemoteIp">Copiar</button>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Policy / Perfil IPsec:</span>
-                                        <code id="outIkeProfile">IKEv2</code>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Local ID / Remote ID Type:</span>
-                                        <code id="outIdTypes">IP Address / IP Address</code>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Local Tunnel IP (/30):</span>
-                                        <code id="outVtiLocal">169.254.10.1 / 255.255.255.252</code>
-                                        <button class="copy-btn" data-copy-target="outVtiLocal">Copiar</button>
-                                    </div>
-                                    <div class="param-row">
-                                        <span>Remote Tunnel IP (/30):</span>
-                                        <code id="outVtiRemota">169.254.10.2 / 255.255.255.252</code>
-                                        <button class="copy-btn" data-copy-target="outVtiRemota">Copiar</button>
-                                    </div>
-                                    <div class="param-row highlight-row">
-                                        <span>IKEv2 Pre-Shared Key (PSK):</span>
-                                        <code id="outPskKey">K9$mX8#pQ2!vW7%zN4&tR9*bY3^uL5@s</code>
-                                        <button class="copy-btn" data-copy-target="outPskKey">Copiar</button>
+
+                                    <!-- Remote / Destination Settings Card -->
+                                    <div class="sub-card" style="grid-column: span 2;">
+                                        <h4>🌐 3. Remote / Destination Settings (Destino - Sophos Remoto)</h4>
+                                        <div class="param-row">
+                                            <span>Gateway Address (IP Remota):</span>
+                                            <code id="outWanRemoteIp">200.123.45.67</code>
+                                            <button class="copy-btn" data-copy-target="outWanRemoteIp">Copiar</button>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Gateway Type (Modo):</span>
+                                            <code id="outGatewayType">Initiator</code>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Remote ID Type:</span>
+                                            <code id="outRemoteIdType">IP Address</code>
+                                        </div>
+                                        <div class="param-row highlight-row">
+                                            <span>Remote Tunnel IP (/30 - Gateway Ruta):</span>
+                                            <code id="outVtiRemota">169.254.10.2</code>
+                                            <button class="copy-btn" data-copy-target="outVtiRemota">Copiar</button>
+                                        </div>
+                                        <div class="param-row">
+                                            <span>Red Destino (Host):</span>
+                                            <code id="outObjDestinoCard">HOST_Bogota_Norte (10.4.0.13)</code>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

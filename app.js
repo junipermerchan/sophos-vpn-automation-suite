@@ -34,6 +34,10 @@ document.addEventListener('DOMContentLoaded', () => {
         wanRemoteIp: document.getElementById('outWanRemoteIp'),
         ikeProfile: document.getElementById('outIkeProfile'),
         idTypes: document.getElementById('outIdTypes'),
+        localIdType: document.getElementById('outLocalIdType'),
+        remoteIdType: document.getElementById('outRemoteIdType'),
+        objOrigenCard: document.getElementById('outObjOrigenCard'),
+        objDestinoCard: document.getElementById('outObjDestinoCard'),
         vtiLocal: document.getElementById('outVtiLocal'),
         vtiRemota: document.getElementById('outVtiRemota'),
         pskKey: document.getElementById('outPskKey'),
@@ -125,6 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (outputs.wanRemoteIp) outputs.wanRemoteIp.textContent = wanRemVal;
         if (outputs.ikeProfile) outputs.ikeProfile.textContent = profileVal;
         if (outputs.idTypes) outputs.idTypes.textContent = `${locIdVal} / ${remIdVal}`;
+        if (outputs.localIdType) outputs.localIdType.textContent = locIdVal;
+        if (outputs.remoteIdType) outputs.remoteIdType.textContent = remIdVal;
+        if (outputs.objOrigenCard) outputs.objOrigenCard.textContent = `HOST_${srcName} (${srcIp})`;
+        if (outputs.objDestinoCard) outputs.objDestinoCard.textContent = `HOST_${dstName} (${dstIp})`;
 
         outputs.vtiLocal.textContent = `${vtiLoc} / 255.255.255.252 (/30)`;
         outputs.vtiRemota.textContent = `${vtiRem} / 255.255.255.252 (/30)`;
